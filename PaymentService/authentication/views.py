@@ -8,4 +8,4 @@ UserModel = get_user_model()
 class UserRegisterView(CreateView):
     template_name = "authentication/register.html"
     model = UserModel
-    fields = ["name", "email", "password"]
+    fields = ["name", "email", "password", "is_business"]
