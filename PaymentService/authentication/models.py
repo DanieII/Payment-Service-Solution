@@ -36,3 +36,13 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
     USERNAME_FIELD = "email"
+
+    @property
+    def account_type(self):
+        return "Business" if self.is_business else "Retail"
+
+    def __str__(self):
+        return f"{self.name} - {self.account_type}"
+
+    class Meta:
+        verbose_name = "User"
