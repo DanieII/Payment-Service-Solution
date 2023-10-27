@@ -122,9 +122,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
-STATIC_FILES_DIRS = [
-    BASE_DIR / "static",
-]
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -143,3 +141,6 @@ STRIPE_SECRET_KEY = 'sk_test_51O5mZHKqbi3kU3iBTHCVS7OqHPqrTSl0TS4If3xHr7b53yRPeZ
 
 # 4000000000009995 - Failed payment
 # 4000002500003155 - Requires authentication
+
+PAYMENT_SUCCESS_URL = "http://127.0.0.1:8000/"
+PAYMENT_CANCEL_URL = "http://127.0.0.1:8000/"

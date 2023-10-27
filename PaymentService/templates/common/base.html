@@ -1,6 +1,6 @@
 {% load static %}
-<!DOCTYPE html>
-<html>
+
+<html lang="">
     <head>
         <title>Payment Service</title>
         <meta charset="UTF-8">
@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.png' %}">
         <style>
             body, h1, h2, h3, h4, h5, h6 {
                 font-family: "Raleway", sans-serif
@@ -23,15 +24,17 @@
             .bgimg-1 {
                 background-position: center;
                 background-size: cover;
-                /*background-image: url("{% static 'images/payment-services.jpg' %}");*/
-                background-image: url('https://assets-global.website-files.com/5f3de22932cbbe5e11532f5b/648c3b43751b0be1f9ae09c9_a-customer-makes-an-online-payment-which-relies-on-payment-gateway-services.jpg');
+                background-image: url("{% static 'images/header-bg.jpg' %}");
+                /*background-image: url('https://assets-global.website-files.com/5f3de22932cbbe5e11532f5b/648c3b43751b0be1f9ae09c9_a-customer-makes-an-online-payment-which-relies-on-payment-gateway-services.jpg');*/
                 min-height: 100%;
-
                 min-height: 100%;
             }
 
             .w3-bar .w3-button {
                 padding: 16px;
+            }
+            img.logo{
+                max-height: 4em;
             }
         </style>
     </head>
@@ -40,7 +43,7 @@
     <!-- Navbar (sit on top) -->
     <div class="w3-top">
         <div class="w3-bar w3-white w3-card" id="myNavbar">
-            <a href="#home" class="w3-bar-item w3-button w3-wide">LOGO</a>
+            <img src="{% static 'images/logo.png' %}" alt="logo" class="w3-bar-item logo">
             <!-- Right-sided navbar links -->
             <div class="w3-right w3-hide-small">
                 <a href="#about" class="w3-bar-item w3-button">ABOUT</a>
@@ -74,7 +77,6 @@
 
     {% endblock %}
 
-    <!-- Footer. This section contains an ad for W3Schools Spaces. You can leave it to support us. -->
     <footer class="w3-center w3-black w3-padding-64">
         <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
         <div class="w3-xlarge w3-section">
