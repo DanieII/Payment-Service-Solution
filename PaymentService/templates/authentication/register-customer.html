@@ -1,18 +1,19 @@
 {% extends "common/base.html" %}
 {% block content %}
     <div class="container w3-center w3-padding-64">
-        <h1>Login</h1>
-        <form action="{% url 'login' %}" method="post">
+        <h1>Register</h1>
+        <form action="{% url 'register_customer' %}" method="post">
             {% csrf_token %}
             {% for error in form.non_field_errors %}<p class="w3-text-red">error</p>{% endfor %}
             {% for field in form %}
                 <p>{{ field }}</p>
                 {% for error in field.errors %}<p class="w3-text-red">{{ error }}</p>{% endfor %}
             {% endfor %}
-            <button type="submit">Login</button>
+            <button type="submit">Register</button>
+            <input type="hidden" name="is_business" value="{{ is_business }}">
         </form>
         <p>
-            <a href="{% url 'register' %}">Don't have an account?</a>
+            <a href="{% url 'login' %}">Already have an account?</a>
         </p>
     </div>
 {% endblock %}
