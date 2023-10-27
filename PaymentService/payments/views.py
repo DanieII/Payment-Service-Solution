@@ -45,7 +45,7 @@ class CreateStripeCheckoutSessionView(View):
                     "quantity": 1,
                 }
             ],
-            metadata={"product_id": price.product.id},
+            metadata={"product_id": 1},
             mode="payment",
             success_url=settings.PAYMENT_SUCCESS_URL,
             cancel_url=settings.PAYMENT_CANCEL_URL,

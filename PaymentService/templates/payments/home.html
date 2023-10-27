@@ -2,9 +2,9 @@
 
 {% block content %}
 
-  <section class="section">
+  <section class="section w3-padding-64">
     <div class="container">
-      <button class="button is-primary" id="submitBtn">Purchase!</button>
+      <button class="button is-primary" id="submitBtn" onclick="window.location.href='{% url 'create-checkout-session' %}'">Purchase!</button>
     </div>
   </section>
 
