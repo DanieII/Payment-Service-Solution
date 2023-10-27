@@ -33,13 +33,14 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(auto_now=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    ACCOUNT_TYPES = ["Business", "Customer"]
 
     objects = CustomUserManager()
     USERNAME_FIELD = "email"
 
     @property
     def account_type(self):
-        return "Business" if self.is_business else "Retail"
+        return "Business" if self.is_business else "Customer"
 
     def __str__(self):
         return f"{self.name} - {self.account_type}"

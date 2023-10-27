@@ -1,27 +1,29 @@
 from django.views.generic import CreateView
 from django.contrib.auth import get_user_model, login
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView, TemplateView
 from django import forms
 from django.urls import reverse_lazy
 from common.mixins import AddPlaceholdersToFieldMixin
+from .mixins import ProhibitLoggedUsersMixin
 
 
 UserModel = get_user_model()
 
 
-class UserRegisterView(
-    AddPlaceholdersToFieldMixin,
-    CreateView,
-):
+class UserRegisterView(ProhibitLoggedUsersMixin, TemplateView):
     template_name = "authentication/register.html"
+
+
+class BaseUserRegisterView(
+    ProhibitLoggedUsersMixin, AddPlaceholdersToFieldMixin, CreateView
+):
+    template_name = "authentication/register-business.html"
     model = UserModel
-    fields = ["name", "email", "password", "is_business"]
-    placeholders = {"name": "Name", "email": "Email", "password": "Password"}
+    fields = ["name", "email", "password"]
     success_url = reverse_lazy("home")
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
-        form.fields["is_business"].label = "Business Account?"
         form.fields["password"].widget = forms.PasswordInput(
             attrs={"placeholder": "Password"}
         )
@@ -30,23 +32,50 @@ class UserRegisterView(
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        self.validate_business_name(form)
         user = form.save()
+        is_business = bool(self.request.POST.get("is_business", False))
+        user.is_business = is_business
+        user.save()
 
         login(self.request, user)
 
         return response
 
-    def validate_business_name(self, form):
-        if not form.cleaned_data.get("is_business"):
-            return
 
-        business_name = form.cleaned_data.get("name")
-        business_name_taken = UserModel.objects.filter(name=business_name).exists()
+class BusinessUserRegisterView(BaseUserRegisterView):
+    template_name = "authentication/register-customer.html"
+    placeholders = {"name": "Company name", "email": "Email", "password": "Password"}
 
-        if business_name_taken:
-            raise forms.ValidationError("This Business name is already taken.")
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data["is_business"] = True
+
+        return context_data
 
 
-class UserLoginView(AddPlaceholdersToFieldMixin, LoginView):
+class CustomerUserRegisterView(BaseUserRegisterView):
+    template_name = "authentication/register-customer.html"
+    placeholders = {
+        "name": "First and Last name",
+        "email": "Email",
+        "password": "Password",
+    }
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data["is_business"] = False
+
+        return context_data
+
+
+class UserLoginView(ProhibitLoggedUsersMixin, AddPlaceholdersToFieldMixin, LoginView):
     template_name = "authentication/login.html"
+    placeholders = {"username": "Email", "password": "Password"}
+
+    def get_success_url(self):
+        return reverse_lazy("home")
+
+
+class UserLogoutView(LogoutView):
+    def get_success_url(self):
+        return reverse_lazy("home")
