@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Project
     "common",
+    "authentication",
     "payments",
 ]
 
@@ -129,6 +130,8 @@ STATIC_FILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = "authentication.CustomUser"
 
 STRIPE_PUBLISHABLE_KEY = 'pk_test_51O5mZHKqbi3kU3iB6hy31sca4lYHMwE1KvB6sycBaja6yUgM1wjH2sYaf8mIkyyHxTDYRbznDFQPg7hK7Q3zXzNW00xicqKu9u'
 STRIPE_SECRET_KEY = 'sk_test_51O5mZHKqbi3kU3iBTHCVS7OqHPqrTSl0TS4If3xHr7b53yRPeZo0jYdqBof7vA5ixEyXY7hkWtbEhK5SCv5DKv0300B4HMfxzu'
