@@ -19,7 +19,6 @@ dotenv.load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -30,7 +29,6 @@ SECRET_KEY = "django-insecure-tkr@zuznw90w6hc$ies&^d6h1l59fjm8x$g=iw8hn*3k15*i+w
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -43,8 +41,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Project
     "common",
-    "payments.apps.PaymentsConfig",
     "authentication",
+    "payments",
 ]
 
 MIDDLEWARE = [
@@ -76,7 +74,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "PaymentService.wsgi.application"
-
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -110,7 +107,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -122,11 +118,13 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_FILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -134,3 +132,14 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "authentication.CustomUser"
+
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51O5mZHKqbi3kU3iB6hy31sca4lYHMwE1KvB6sycBaja6yUgM1wjH2sYaf8mIkyyHxTDYRbznDFQPg7hK7Q3zXzNW00xicqKu9u'
+STRIPE_SECRET_KEY = 'sk_test_51O5mZHKqbi3kU3iBTHCVS7OqHPqrTSl0TS4If3xHr7b53yRPeZo0jYdqBof7vA5ixEyXY7hkWtbEhK5SCv5DKv0300B4HMfxzu'
+
+# test cards:
+# 4242424242424242 - Successful payment
+# use date in the future like 12/34
+# any 3 numbers as CVC
+
+# 4000000000009995 - Failed payment
+# 4000002500003155 - Requires authentication
