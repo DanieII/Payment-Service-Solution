@@ -26,10 +26,11 @@
             <div class="col-md-3">
                 <div class="card">
                     <div class="card-body">
+                        <img src="{{ product.media.url }}" alt="{{ product.name }}">
                         <div id="nm{{ product.id}}" class="card-name">{{ product.name }}</div>
                         <div id="price{{ product.id}}" class="card-text">{{ product.price }}</div>
 
-<!--                        <a href="/{{ product.id}}" class="btn btn-warning">View</a>-->
+                        <a href="{% url 'product_details' product.id %}" class="btn btn-warning">View</a>
 <!--                        <button id="{{ product.id}}" class="btn atc btn-warning">Add to cart</button>-->
 
                     </div>
