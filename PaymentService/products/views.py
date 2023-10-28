@@ -1,3 +1,4 @@
+import requests
 from django.core.paginator import Paginator
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, reverse
@@ -28,10 +29,10 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 def product_list(request):
     users = UserModel.objects.all()
 
-    # search item
-    user = request.GET.get("user")
-    if user != "" and user is not None:
-        # TODO: check if this isn't making any problems
+    # search user, case-insensitive
+    user = request.GET.get('user')
+    if user != '' and user is not None:
+
         users = users.filter(name__icontains=user)
 
     products = []

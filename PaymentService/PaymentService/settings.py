@@ -40,9 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Project
-    "common",
     "authentication",
-    "payments",
+    "common",
     "products",
 ]
 
@@ -141,12 +140,11 @@ STRIPE_SECRET_KEY = "sk_test_51O5mZHKqbi3kU3iBTHCVS7OqHPqrTSl0TS4If3xHr7b53yRPeZ
 STRIPE_CURRENCY = "usd"
 
 # test cards:
+# 4000000000009995 - Failed payment
+# 4000002500003155 - Requires authentication
 # 4242424242424242 - Successful payment
 # use date in the future like 12/34
 # any 3 numbers as CVC
-
-# 4000000000009995 - Failed payment
-# 4000002500003155 - Requires authentication
 
 BACKEND_DOMAIN = 'http://127.0.0.1:8000'
 PAYMENT_SUCCESS_URL = 'http://127.0.0.1:8000/products/success/'
