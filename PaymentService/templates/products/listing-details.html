@@ -1,2 +1,19 @@
 {% extends "common/base.html" %}
-{% block content %}{{ object.name }}{% endblock %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static "css/products/listing-details.css" %}">
+    <div class="details">
+        <div class="names">
+            <h1>
+                {{ object.name }} - <span>{{ object.price }} &dollar;</span>
+            </h1>
+            <p>from {{ object.user.name }}</p>
+        </div>
+        <p class="posted-on">Posted on {{ object.created_on|date:"M d, Y" }}</p>
+        <img src="{{ object.media.url }}" alt="{{ object.name }}">
+        <div class="bottom">
+            <p class="description">{{ object.description }}</p>
+            <a href="#" class="button">Add to cart</a>
+        </div>
+    </div>
+{% endblock %}

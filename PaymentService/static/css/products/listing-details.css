@@ -1,0 +1,48 @@
+main .container {
+  padding-inline: 3em;
+}
+
+.details {
+  padding: 1em 2em;
+  border: 1px solid #d7d7d7;
+  border-radius: 0.5em;
+  box-shadow: 0 0 1em 0 rgb(0, 0, 0, 0.1);
+}
+
+.details h1 {
+  margin-bottom: 0;
+  line-height: 1em;
+}
+
+.details h1 span {
+  font-weight: 400;
+  font-family: sans-serif;
+}
+
+.details .names {
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid #d7d7d7;
+}
+
+.details .posted-on {
+  margin-block: 1em;
+  opacity: 0.8;
+}
+
+.details img {
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  object-position: center;
+}
+
+.details .bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1em;
+}
+
+.details .bottom p {
+  align-self: flex-start;
+}

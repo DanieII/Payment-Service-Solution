@@ -2,6 +2,8 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 UserModel = get_user_model()
+
+
 class Product(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -10,9 +12,11 @@ class Product(models.Model):
         UserModel, on_delete=models.CASCADE, related_name="products"
     )
     media = models.ImageField(upload_to="images")
+    created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
+
 
 class Order(models.Model):
     customer_email = models.EmailField()
