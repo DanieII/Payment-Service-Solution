@@ -1,3 +1,4 @@
+import requests
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -21,7 +22,6 @@ def product_list(request):
     # search item
     user = request.GET.get('user')
     if user != '' and user is not None:
-        # TODO: check if this isn't making any problems
         users = users.filter(name__icontains=user)
 
     products = []

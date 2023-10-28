@@ -1,11 +1,11 @@
 import stripe
 from django.conf import settings
 from django.http import HttpResponse
-from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
+from products.models import Order, Product
 
 
 class HomeView(TemplateView):
@@ -16,6 +16,7 @@ class HomeView(TemplateView):
 class StripeWebhookView(View):
     """
     Stripe webhook view to handle checkout session completed event.
+    On successful event, creates an order in the database
     """
 
     def post(self, request, format=None):
@@ -33,8 +34,16 @@ class StripeWebhookView(View):
             # Invalid signature
             return HttpResponse(status=400)
 
+        # on successful event, create an order in the database
         if event["type"] == "checkout.session.completed":
-            print("Payment successful")
-        # Can handle other events here.
-
+            session = event["data"]["object"]
+            customer_name = session["customer_details"]["name"]
+            customer_email = session["customer_details"]["email"]
+            product = Product.objects.get(id=session["metadata"]["product_id"])
+            Order.objects.create(
+                customer_name=customer_name,
+                customer_email=customer_email,
+                product_name=product.name,
+                product_price=product.price,
+            )
         return HttpResponse(status=200)

@@ -12,4 +12,4 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     model = Order
-    list_display = ['customer_email', 'product', 'amount', 'has_paid', 'created_on', 'updated_on']
+    list_display = ['customer_email', 'customer_name', 'product_name', 'product_price']
