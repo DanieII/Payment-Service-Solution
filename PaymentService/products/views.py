@@ -49,51 +49,7 @@ def product_details(request, id):
     return render(request, 'products/product_details.html', context)
 
 
-@csrf_exempt
-def stripe_config(request):
-    if request.method == 'GET':
-        stripe_config = {'publicKey': settings.STRIPE_PUBLISHABLE_KEY}
-        return JsonResponse(stripe_config, safe=False)
-
-
 stripe.api_key = settings.STRIPE_SECRET_KEY
-
-
-@csrf_exempt
-def create_checkout_session(request):
-    if request.method == 'GET':
-        domain_url = 'http://localhost:8000/'
-        print("**"*20)
-        print(request.GET.get)
-        print(request.GET.get('product_id'))
-        print("**" * 20)
-        product_id = request.GET.get('product_id')
-        product = get_object_or_404(Product, id=product_id)
-
-        try:
-            # Create a new Checkout Session for the order
-            checkout_session = stripe.checkout.Session.create(
-                success_url=domain_url + 'success?session_id={CHECKOUT_SESSION_ID}',
-                cancel_url=domain_url + 'cancelled/',
-                payment_method_types=['card'],
-                mode='payment',
-                line_items=[
-                    {
-                        'name': product.name,
-                        'quantity': 1,
-                        'currency': 'usd',
-                        'amount': int(product.price * 100),  # Convert price to cents
-                    }
-                ]
-            )
-
-            return JsonResponse({'sessionId': checkout_session['id']})
-        except Exception as e:
-            return JsonResponse({'error': str(e)})
-          
-    return render(
-        request, "products/product_list.html", {"products": products, "users": users}
-    )
 
 
 class ListingsView(ProhibitCustomerUsersMixin, ListView):
