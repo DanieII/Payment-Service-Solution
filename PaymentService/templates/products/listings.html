@@ -1,0 +1,9 @@
+{% extends "common/base.html" %}
+{% block content %}
+    <h1>Listings</h1>
+    {% if not object_list %}
+        <p>
+            You haven't added any listings! <a href="">Add some</a>
+        </p>
+    {% endif %}
+{% endblock %}

@@ -54,6 +54,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "authentication.middlewares.AlwaysRequireAccountMiddleware",
 ]
 
 ROOT_URLCONF = "PaymentService.urls"
@@ -125,8 +126,8 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -135,8 +136,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "authentication.CustomUser"
 
-STRIPE_PUBLISHABLE_KEY = 'pk_test_51O5mZHKqbi3kU3iB6hy31sca4lYHMwE1KvB6sycBaja6yUgM1wjH2sYaf8mIkyyHxTDYRbznDFQPg7hK7Q3zXzNW00xicqKu9u'
-STRIPE_SECRET_KEY = 'sk_test_51O5mZHKqbi3kU3iBTHCVS7OqHPqrTSl0TS4If3xHr7b53yRPeZo0jYdqBof7vA5ixEyXY7hkWtbEhK5SCv5DKv0300B4HMfxzu'
+STRIPE_PUBLISHABLE_KEY = "pk_test_51O5mZHKqbi3kU3iB6hy31sca4lYHMwE1KvB6sycBaja6yUgM1wjH2sYaf8mIkyyHxTDYRbznDFQPg7hK7Q3zXzNW00xicqKu9u"
+STRIPE_SECRET_KEY = "sk_test_51O5mZHKqbi3kU3iBTHCVS7OqHPqrTSl0TS4If3xHr7b53yRPeZo0jYdqBof7vA5ixEyXY7hkWtbEhK5SCv5DKv0300B4HMfxzu"
 
 # test cards:
 # 4242424242424242 - Successful payment
