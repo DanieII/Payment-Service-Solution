@@ -22,6 +22,43 @@ main {
   margin-top: 2em;
 }
 
+.button {
+  text-decoration: none;
+  padding: 0.5em 1em;
+  border-radius: 0.3em;
+  color: #fff;
+  background: linear-gradient(to bottom right, #1d6ae5, #eee);
+  cursor: pointer;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5em;
+  width: 50%;
+  max-width: 20em;
+  margin: 1.5em auto;
+}
+
+.form > *:not(.button) {
+  padding: 0.2em;
+}
+
+.form .button {
+  border: none;
+  align-self: center;
+}
+
+input::file-selector-button {
+  font-weight: bold;
+  padding: 0.3em;
+  border: thin solid grey;
+  border-radius: 3px;
+  background-color: #eee;
+  cursor: pointer;
+}
+
 .container {
   max-width: 1280px;
   margin: 0 auto;

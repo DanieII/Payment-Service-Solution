@@ -1,0 +1,19 @@
+{% load static %}
+<link rel="stylesheet" href="{% static "css/products/listings-layout.css" %}">
+<div class="listings">
+    {% for item in items %}
+        <div class="item">
+            <div class="media">
+                <a href="{% url 'listing-details' pk=item.pk %}">
+                    <img src="{{ item.media.url }}" alt="{{ item.name }}">
+                </a>
+            </div>
+            <div class="content">
+                <p class="name">{{ item.name }}</p>
+                <p class="business">from {{ item.user.name }}</p>
+                <p class="price">{{ item.price }} &dollar;</p>
+                {% if not request.user.is_business %}<a href="#" class="button">Add to cart</a>{% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>

@@ -1,0 +1,93 @@
+main .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+main .container > .button {
+  margin-bottom: 1.5em;
+}
+
+.listings {
+  width: 100%;
+  column-count: 4;
+}
+
+.listings .item {
+  width: 100%;
+  margin-bottom: 1em;
+  break-inside: avoid;
+  border-radius: 0.5em;
+  box-shadow: 0 0 1em 0 rgb(0, 0, 0, 0.15);
+}
+
+.price {
+  font-family: sans-serif;
+  padding-top: 0;
+}
+
+.name {
+  font-size: 1.3em;
+  padding-bottom: 0;
+}
+
+.business {
+  color: #62646a;
+  font-size: 0.8em;
+  padding-block: 0.2em;
+}
+
+.listings a {
+  text-decoration: none;
+}
+
+.listings .button {
+  align-self: center;
+  margin-top: 0.8em;
+}
+
+.listings img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.listings .media {
+  width: 100%;
+  border-top-left-radius: 0.5em;
+  border-top-right-radius: 0.5em;
+  overflow: hidden;
+}
+
+.listings .item .content {
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+}
+
+.listings .item img {
+  transition: transform 0.1s ease-in;
+}
+
+.listings .item:hover img {
+  transform: scale(1.1);
+}
+
+@media only screen and (max-width: 1000px) {
+  .listings {
+    column-count: 3;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .listings {
+    column-count: 2;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .listings {
+    column-count: 1;
+  }
+}

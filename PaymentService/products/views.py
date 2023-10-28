@@ -1,15 +1,18 @@
 from django.core.paginator import Paginator
 from django.contrib.auth import get_user_model
 from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DetailView, ListView
+from .models import Product
+from django.contrib.auth import get_user_model
+from common.mixins import ProhibitCustomerUsersMixin, AddPlaceholdersToFieldMixin
+from django import forms
 from django.views.generic import TemplateView
 from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
 import stripe
-from .models import Product
-from django.views.generic import ListView
-from common.mixins import ProhibitCustomerUsersMixin
 
 UserModel = get_user_model()
 
@@ -102,3 +105,30 @@ class ListingsView(ProhibitCustomerUsersMixin, ListView):
         current_business_listings = all_listings.filter(user=self.request.user)
 
         return current_business_listings
+
+
+class AddListing(AddPlaceholdersToFieldMixin, CreateView):
+    model = Product
+    template_name = "products/add-listing.html"
+    fields = ["name", "description", "price", "media"]
+    placeholders = {"name": "Name", "description": "Description", "price": "Price"}
+    success_url = reverse_lazy("listings")
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields["description"].widget = forms.Textarea(
+            attrs={"placeholder": "Description"}
+        )
+
+        return form
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        response = super().form_valid(form)
+
+        return response
+
+
+class ListingDetails(DetailView):
+    model = Product
+    template_name = "products/listing-details.html"
