@@ -1,9 +1,14 @@
 {% extends "common/base.html" %}
 {% block content %}
-    <h1>Listings</h1>
+    <h1>My Listings</h1>
     {% if not object_list %}
-        <p>
-            You haven't added any listings! <a href="">Add some</a>
+        <p class="w3-center">
+            You haven't added any listings! <a href="{% url 'add-listing' %}">Add some</a>
         </p>
+    {% else %}
+        <a href="{% url 'add-listing' %}" class="button w3-center">Add a listing</a>
     {% endif %}
+    {% with object_list as items %}
+        {% include "products/listings-layout.html" %}
+    {% endwith %}
 {% endblock %}

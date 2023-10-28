@@ -11,11 +11,10 @@ class AddPlaceholdersToFieldMixin:
 
         form = super().get_form(form_class)
 
-        for field_name in form.fields.keys():
-            current_field = form.fields[field_name]
+        for field_name, placeholder in self.placeholders.items():
             try:
-                current_field.widget = forms.TextInput(
-                    attrs={"placeholder": self.placeholders[field_name]}
+                form.fields[field_name].widget = forms.TextInput(
+                    attrs={"placeholder": placeholder}
                 )
             except KeyError:
                 pass

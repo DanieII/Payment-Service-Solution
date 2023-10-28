@@ -11,7 +11,7 @@ class Product(models.Model):
     user = models.ForeignKey(
         UserModel, on_delete=models.CASCADE, related_name="products"
     )
-    media = models.ImageField(upload_to="images", blank=True)
+    media = models.ImageField(upload_to="images")
 
     def __str__(self):
         return self.name

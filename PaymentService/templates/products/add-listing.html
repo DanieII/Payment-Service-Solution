@@ -1,0 +1,15 @@
+{% extends "common/base.html" %}
+{% block content %}
+    <form action="{% url 'add-listing' %}"
+          method="post"
+          enctype="multipart/form-data"
+          class="form">
+        {% csrf_token %}
+        {% for error in form.non_field_errors %}<p class="w3-text-red">{{ error }}</p>{% endfor %}
+        {% for field in form %}
+            {{ field }}
+            {% for error in field.errors %}<p class="w3-text-red">{{ error }}</p>{% endfor %}
+        {% endfor %}
+        <button type="submit" class="button">Create</button>
+    </form>
+{% endblock %}
