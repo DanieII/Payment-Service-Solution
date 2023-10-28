@@ -1,5 +1,15 @@
 import requests
 from django.core.paginator import Paginator
+from django.contrib.auth import get_user_model
+from django.shortcuts import render, reverse
+from django.urls import reverse_lazy
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    UpdateView,
+)
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -13,15 +23,16 @@ import stripe
 from coinbase_commerce.client import Client
 
 UserModel = get_user_model()
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
-# Create your views here.
 def product_list(request):
     users = UserModel.objects.all()
 
-    # search item
+    # search user, case-insensitive
     user = request.GET.get('user')
     if user != '' and user is not None:
+
         users = users.filter(name__icontains=user)
 
     products = []
@@ -33,20 +44,9 @@ def product_list(request):
     page = request.GET.get("page")
     products = paginator.get_page(page)
 
-    return render(request, 'products/product_list.html', {'products': products, 'users': users})
-
-
-def product_details(request, id):
-    product = Product.objects.get(id=id)
-    stripe_publishable_key = settings.STRIPE_PUBLISHABLE_KEY
-    context = {
-        'product': product,
-        'stripe_publishable_key': stripe_publishable_key
-    }
-    return render(request, 'products/product_details.html', context)
-
-
-stripe.api_key = settings.STRIPE_SECRET_KEY
+    return render(
+        request, "products/product_list.html", {"products": products, "users": users}
+    )
 
 
 class ListingsView(ProhibitCustomerUsersMixin, ListView):
@@ -87,7 +87,19 @@ class ListingDetails(DetailView):
     template_name = "products/listing-details.html"
 
 
-stripe.api_key = settings.STRIPE_SECRET_KEY
+class EditListing(UpdateView):
+    model = Product
+    template_name = "products/edit-listing.html"
+    fields = ["name", "description", "media"]
+
+    def get_success_url(self):
+        pk = self.object.pk
+        return reverse("listing-details", kwargs={"pk": pk})
+
+
+class DeleteListing(DeleteView):
+    model = Product
+    success_url = reverse_lazy("listings")
 
 
 class CreateStripeCheckoutSessionView(View):
@@ -134,12 +146,12 @@ def create_coinbase_checkout_session_view(request, id):
     client = Client(api_key=settings.COINBASE_COMMERCE_API_KEY)
     domain_url = settings.BACKEND_DOMAIN
     product = {
-        'name': current_order.name,
-        'description': current_order.description,
-        'local_price': {'amount': str(current_order.price), 'currency': 'USD'},
-        'pricing_type': 'fixed_price',
-        'redirect_url': settings.PAYMENT_SUCCESS_URL,
-        'cancel_url': settings.PAYMENT_CANCEL_URL,
+        "name": current_order.name,
+        "description": current_order.description,
+        "local_price": {"amount": str(current_order.price), "currency": "USD"},
+        "pricing_type": "fixed_price",
+        "redirect_url": settings.PAYMENT_SUCCESS_URL,
+        "cancel_url": settings.PAYMENT_CANCEL_URL,
     }
     charge = client.charge.create(**product)
-    return render(request, 'products/product_details.html', {'charge': charge})
+    return render(request, "products/product_details.html", {"charge": charge})

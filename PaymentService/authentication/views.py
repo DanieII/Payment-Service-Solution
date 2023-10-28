@@ -5,6 +5,7 @@ from django import forms
 from django.urls import reverse_lazy
 from common.mixins import AddPlaceholdersToFieldMixin
 from .mixins import ProhibitLoggedUsersMixin
+from .forms import CustomerUserRegisterForm, BusinessUserRegisterForm
 
 
 UserModel = get_user_model()
@@ -19,7 +20,6 @@ class BaseUserRegisterView(
 ):
     template_name = "authentication/register-business.html"
     model = UserModel
-    fields = ["name", "email", "password"]
     success_url = reverse_lazy("home")
 
     def get_form(self, form_class=None):
@@ -33,7 +33,7 @@ class BaseUserRegisterView(
     def form_valid(self, form):
         response = super().form_valid(form)
         user = form.save()
-        is_business = bool(self.request.POST.get("is_business", False))
+        is_business = self.request.POST.get("is_business", False)
         user.is_business = is_business
         user.save()
 
@@ -43,8 +43,9 @@ class BaseUserRegisterView(
 
 
 class BusinessUserRegisterView(BaseUserRegisterView):
-    template_name = "authentication/register-customer.html"
+    template_name = "authentication/register-business.html"
     placeholders = {"name": "Company name", "email": "Email", "password": "Password"}
+    form_class = BusinessUserRegisterForm
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -60,6 +61,7 @@ class CustomerUserRegisterView(BaseUserRegisterView):
         "email": "Email",
         "password": "Password",
     }
+    form_class = CustomerUserRegisterForm
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)

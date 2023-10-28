@@ -1,5 +1,6 @@
 {% load static %}
-<html lang="">
+<!DOCTYPE html>
+<html lang="en">
     <head>
         <title>
             {% block title %}Payment Service{% endblock %}
@@ -15,21 +16,39 @@
               type="image/x-icon"
               href="{% static 'images/favicon.png' %}">
         <link rel="stylesheet" href="{% static "css/common/base.css" %}">
-        {% block styles %}{% endblock %}
     </head>
     <body>
         <i class="fa fa-arrow-up w3-margin-right back-to-top"></i>
         <header>
             <div class="container">
-                <a href="{% url 'home' %}" class="logo"><span>Payment</span> Service</a>
+                <div>
+                    {% if request.user.is_business %}
+                        <a href="{% url 'business-home' %}" class="logo"><span>Payment</span> Service</a>
+                    {% else %}
+                        <a href="{% url 'customer-home' %}" class="logo"><span>Payment</span> Service</a>
+                    {% endif %}
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.is_business %}
+                            <p>Business</p>
+                        {% else %}
+                            <p>Customer</p>
+                        {% endif %}
+                    {% endif %}
+                </div>
                 <nav>
                     <ul class="w3-hide-small">
                         <li>
-                            <a href="{% url 'home' %}">Home</a>
+                            {% if request.user.is_business %}
+                                <a href="{% url 'business-home' %}">Home</a>
+                            {% else %}
+                                <a href="{% url 'customer-home' %}">Home</a>
+                            {% endif %}
                         </li>
-                        <li>
-                            <a href="{% url 'listings' %}">Listings</a>
-                        </li>
+                        {% if request.user.is_business %}
+                            <li>
+                                <a href="{% url 'listings' %}">Listings</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </nav>
                 <div class="authentication w3-hide-small">

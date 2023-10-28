@@ -3,6 +3,12 @@
 {% block content %}
     <link rel="stylesheet" href="{% static "css/products/listing-details.css" %}">
     <div class="details">
+        {% if request.user.is_business %}
+            <div class="business-options">
+                <a href="{% url 'delete-listing' pk=object.pk %}"><i class="fa fa-trash"></i></a>
+                <a href="{% url 'edit-listing' pk=object.pk %}"><i class="fa fa-pencil"></i></a>
+            </div>
+        {% endif %}
         <div class="names">
             <h1>
                 {{ object.name }} - <span>{{ object.price }} &dollar;</span>
@@ -13,19 +19,15 @@
         <img src="{{ object.media.url }}" alt="{{ object.name }}">
         <div class="bottom">
             <p class="description">{{ object.description }}</p>
-            <form
-          action="{% url 'create-checkout-session' product.id %}"
-          method="POST"
-        >
-          {% csrf_token %}
-          <button type="submit" class="button">Buy</button>
-        </form><form
-          action="{% url 'crypto-session' product.id %}"
-          method="POST"
-        >
-          {% csrf_token %}
-          <button type="submit" class="button">Crypto</button>
-        </form>
+            {% if not request.user.is_business %}<a href="#" class="button">Add to cart</a>{% endif %}
+            <form action="{% url 'create-checkout-session' product.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="button">Buy</button>
+            </form>
+            <form action="{% url 'crypto-session' product.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="button">Crypto</button>
+            </form>
         </div>
     </div>
 {% endblock %}
