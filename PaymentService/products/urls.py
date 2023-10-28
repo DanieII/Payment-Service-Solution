@@ -1,4 +1,5 @@
 from django.urls import path
+from .views import ListingsView, product_list
 from . import views
 
 urlpatterns = [
@@ -8,4 +9,5 @@ urlpatterns = [
     path('create-checkout-session/', views.create_checkout_session, name='api_checkout_session'),
     path('success/', views.SuccessView.as_view()),  # new
     path('cancelled/', views.CancelledView.as_view()),  # new
+    path("listings/", ListingsView.as_view(), name="listings"),
 ]

@@ -8,6 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
 import stripe
 from .models import Product
+from django.views.generic import ListView
+from common.mixins import ProhibitCustomerUsersMixin
 
 UserModel = get_user_model()
 
@@ -28,7 +30,7 @@ def product_list(request):
 
     # pagination
     paginator = Paginator(products, 2)
-    page = request.GET.get('page')
+    page = request.GET.get("page")
     products = paginator.get_page(page)
 
     return render(request, 'products/product_list.html', {'products': products, 'users': users})
@@ -85,11 +87,18 @@ def create_checkout_session(request):
             return JsonResponse({'sessionId': checkout_session['id']})
         except Exception as e:
             return JsonResponse({'error': str(e)})
+          
+    return render(
+        request, "products/product_list.html", {"products": products, "users": users}
+    )
 
 
-class SuccessView(TemplateView):
-    template_name = 'products/payment_success.html'
+class ListingsView(ProhibitCustomerUsersMixin, ListView):
+    template_name = "products/listings.html"
+    model = Product
 
+    def get_queryset(self):
+        all_listings = super().get_queryset()
+        current_business_listings = all_listings.filter(user=self.request.user)
 
-class CancelledView(TemplateView):
-    template_name = 'products/payment_failed.html'
+        return current_business_listings

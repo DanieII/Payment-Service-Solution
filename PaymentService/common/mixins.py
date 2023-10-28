@@ -1,4 +1,5 @@
 from django import forms
+from django.shortcuts import redirect
 
 
 class AddPlaceholdersToFieldMixin:
@@ -20,3 +21,17 @@ class AddPlaceholdersToFieldMixin:
                 pass
 
         return form
+
+
+class ProhibitBusinessUsersMixin:
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_business:
+            return redirect("home")
+        return super().dispatch(request, *args, **kwargs)
+
+
+class ProhibitCustomerUsersMixin:
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_business:
+            return redirect("home")
+        return super().dispatch(request, *args, **kwargs)

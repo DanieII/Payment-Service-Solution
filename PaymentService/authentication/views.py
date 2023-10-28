@@ -75,7 +75,15 @@ class UserLoginView(ProhibitLoggedUsersMixin, AddPlaceholdersToFieldMixin, Login
     def get_success_url(self):
         return reverse_lazy("home")
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields["password"].widget = forms.PasswordInput(
+            attrs={"placeholder": "Password"}
+        )
+
+        return form
+
 
 class UserLogoutView(LogoutView):
     def get_success_url(self):
-        return reverse_lazy("home")
+        return reverse_lazy("login")
