@@ -3,6 +3,12 @@
 {% block content %}
     <link rel="stylesheet" href="{% static "css/products/listing-details.css" %}">
     <div class="details">
+        {% if request.user.is_business %}
+            <div class="business-options">
+                <a href="{% url 'delete-listing' pk=object.pk %}"><i class="fa fa-trash"></i></a>
+                <a href="{% url 'edit-listing' pk=object.pk %}"><i class="fa fa-pencil"></i></a>
+            </div>
+        {% endif %}
         <div class="names">
             <h1>
                 {{ object.name }} - <span>{{ object.price }} &dollar;</span>
@@ -13,7 +19,7 @@
         <img src="{{ object.media.url }}" alt="{{ object.name }}">
         <div class="bottom">
             <p class="description">{{ object.description }}</p>
-            <a href="#" class="button">Add to cart</a>
+            {% if not request.user.is_business %}<a href="#" class="button">Add to cart</a>{% endif %}
         </div>
     </div>
 {% endblock %}

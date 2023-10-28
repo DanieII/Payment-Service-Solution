@@ -1,8 +1,14 @@
+main .container {
+  padding-inline: 0 !important;
+}
+
 .details {
   padding: 1em 2em;
   border: 1px solid #d7d7d7;
   border-radius: 0.5em;
   box-shadow: 0 0 1em 0 rgb(0, 0, 0, 0.1);
+  width: 70%;
+  margin: 0 auto;
 }
 
 .details h1 {
@@ -42,4 +48,23 @@
 
 .details .bottom p {
   align-self: flex-start;
+}
+
+.details .business-options {
+  display: flex;
+  gap: 1em;
+  margin-bottom: 1em;
+}
+
+.details .business-options i {
+  font-size: 1.3em;
+  cursor: pointer;
+}
+
+.fa-pencil {
+  color: #1d6ae5;
+}
+
+.fa-trash {
+  color: #f44;
 }

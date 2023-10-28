@@ -1,12 +1,15 @@
 {% extends "common/base.html" %}
+{% load static %}
 {% block content %}
-    <div class="account-types w3-padding-64">
+    <link rel="stylesheet" href="{% static "css/authentication/register.css" %}">
+    <div class="account-types">
         <div class="account-type">
-            <a href="{% url 'register_business' %}">Business</a>
+            <a href="{% url 'register_business' %}" class="button">Business</a>
         </div>
+        <p>or</p>
         <div class="account-type">
             <p>
-                <a href="{% url 'register_customer' %}">Customer</a>
+                <a href="{% url 'register_customer' %}" class="button">Customer</a>
             </p>
         </div>
     </div>

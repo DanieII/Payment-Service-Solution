@@ -1,8 +1,14 @@
 from django.core.paginator import Paginator
 from django.contrib.auth import get_user_model
-from django.shortcuts import render
+from django.shortcuts import render, reverse
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, ListView
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    UpdateView,
+)
 from .models import Product
 from django.contrib.auth import get_user_model
 from common.mixins import ProhibitCustomerUsersMixin, AddPlaceholdersToFieldMixin
@@ -15,15 +21,15 @@ from django.shortcuts import get_object_or_404
 import stripe
 
 UserModel = get_user_model()
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
-# Create your views here.
 def product_list(request):
     users = UserModel.objects.all()
 
     # search item
-    user = request.GET.get('user')
-    if user != '' and user is not None:
+    user = request.GET.get("user")
+    if user != "" and user is not None:
         # TODO: check if this isn't making any problems
         users = users.filter(name__icontains=user)
 
@@ -36,20 +42,9 @@ def product_list(request):
     page = request.GET.get("page")
     products = paginator.get_page(page)
 
-    return render(request, 'products/product_list.html', {'products': products, 'users': users})
-
-
-def product_details(request, id):
-    product = Product.objects.get(id=id)
-    stripe_publishable_key = settings.STRIPE_PUBLISHABLE_KEY
-    context = {
-        'product': product,
-        'stripe_publishable_key': stripe_publishable_key
-    }
-    return render(request, 'products/product_details.html', context)
-
-
-stripe.api_key = settings.STRIPE_SECRET_KEY
+    return render(
+        request, "products/product_list.html", {"products": products, "users": users}
+    )
 
 
 class ListingsView(ProhibitCustomerUsersMixin, ListView):
@@ -88,3 +83,18 @@ class AddListing(AddPlaceholdersToFieldMixin, CreateView):
 class ListingDetails(DetailView):
     model = Product
     template_name = "products/listing-details.html"
+
+
+class EditListing(UpdateView):
+    model = Product
+    template_name = "products/edit-listing.html"
+    fields = ["name", "description", "media"]
+
+    def get_success_url(self):
+        pk = self.object.pk
+        return reverse("listing-details", kwargs={"pk": pk})
+
+
+class DeleteListing(DeleteView):
+    model = Product
+    success_url = reverse_lazy("listings")
