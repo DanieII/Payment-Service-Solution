@@ -44,7 +44,27 @@ INSTALLED_APPS = [
     "authentication",
     "payments",
     "products",
+    'cryptocurrency_payment.apps.CryptocurrencyPaymentConfig',
 ]
+CRYPTOCURRENCY_PAYMENT = {
+    "BITCOIN": {
+        "CODE": "btc",
+        "BACKEND": "merchant_wallet.backends.btc.BitcoinBackend",
+        "FEE": 0.00,
+        "REFRESH_PRICE_AFTER_MINUTE": 15,
+        "REUSE_ADDRESS": False,
+        "ACTIVE": True,
+        "MASTER_PUBLIC_KEY": 'mwSAWDJJLvceQaJYz4sdUytkgJ88n4Hmx6',
+        "CANCEL_UNPAID_PAYMENT_HRS": 24,
+        "CREATE_NEW_UNDERPAID_PAYMENT": True,
+        "IGNORE_UNDERPAYMENT_AMOUNT": 10,
+        "IGNORE_CONFIRMED_BALANCE_WITHOUT_SAVED_HASH_MINS": 20,
+        "BALANCE_CONFIRMATION_NUM": 1,
+        "ALLOW_ANONYMOUS_PAYMENT": True,
+        "DERIVATION_PATH": "m/0", #please use deriavation path from your wallet
+        "ADDRESS_TYPE": "p2wpkh" #specify address type you want to generate p2pkh p2sh p2wpkh p2wsh p2wpkh_in_p2sh
+    },
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -134,10 +154,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = "authentication.CustomUser"
+AUTH_USER_MODEL = 'authentication.CustomUser'
 
-STRIPE_PUBLISHABLE_KEY = "pk_test_51O5mZHKqbi3kU3iB6hy31sca4lYHMwE1KvB6sycBaja6yUgM1wjH2sYaf8mIkyyHxTDYRbznDFQPg7hK7Q3zXzNW00xicqKu9u"
-STRIPE_SECRET_KEY = "sk_test_51O5mZHKqbi3kU3iBTHCVS7OqHPqrTSl0TS4If3xHr7b53yRPeZo0jYdqBof7vA5ixEyXY7hkWtbEhK5SCv5DKv0300B4HMfxzu"
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51O5mZHKqbi3kU3iB6hy31sca4lYHMwE1KvB6sycBaja6yUgM1wjH2sYaf8mIkyyHxTDYRbznDFQPg7hK7Q3zXzNW00xicqKu9u'
+STRIPE_SECRET_KEY = 'sk_test_51O5mZHKqbi3kU3iBTHCVS7OqHPqrTSl0TS4If3xHr7b53yRPeZo0jYdqBof7vA5ixEyXY7hkWtbEhK5SCv5DKv0300B4HMfxzu'
+STRIPE_CURRENCY = 'usd'
 
 # test cards:
 # 4242424242424242 - Successful payment
@@ -146,6 +167,3 @@ STRIPE_SECRET_KEY = "sk_test_51O5mZHKqbi3kU3iBTHCVS7OqHPqrTSl0TS4If3xHr7b53yRPeZ
 
 # 4000000000009995 - Failed payment
 # 4000002500003155 - Requires authentication
-
-PAYMENT_SUCCESS_URL = "http://127.0.0.1:8000/"
-PAYMENT_CANCEL_URL = "http://127.0.0.1:8000/"
