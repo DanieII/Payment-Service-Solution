@@ -7,8 +7,8 @@ class AlwaysRequireAccountMiddleware:
 
     def __call__(self, request):
         if (
-            not request.path.startswith("/authentication/")
-            and not request.user.is_authenticated
+                not (request.path.startswith("/authentication/") or request.path.startswith("/webhooks/"))
+                and not request.user.is_authenticated
         ):
             return redirect("login")
 

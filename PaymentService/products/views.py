@@ -1,18 +1,15 @@
 from django.core.paginator import Paginator
-from django.contrib.auth import get_user_model
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, ListView
+from django.views import View
+from django.views.generic import CreateView, DetailView, ListView, TemplateView
 from .models import Product
 from django.contrib.auth import get_user_model
 from common.mixins import ProhibitCustomerUsersMixin, AddPlaceholdersToFieldMixin
 from django import forms
-from django.views.generic import TemplateView
 from django.conf import settings
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import get_object_or_404
 import stripe
+from coinbase_commerce.client import Client
 
 UserModel = get_user_model()
 
@@ -88,3 +85,61 @@ class AddListing(AddPlaceholdersToFieldMixin, CreateView):
 class ListingDetails(DetailView):
     model = Product
     template_name = "products/listing-details.html"
+
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+
+class CreateStripeCheckoutSessionView(View):
+    """
+    Create a checkout session and redirect the user to Stripe's checkout page
+    """
+
+    def post(self, request, *args, **kwargs):
+        product = Product.objects.get(id=self.kwargs["pk"])
+
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=["card"],
+            line_items=[
+                {
+                    "price_data": {
+                        "currency": "usd",
+                        "unit_amount": int(product.price) * 100,
+                        "product_data": {
+                            "name": product.name,
+                            "description": product.description,
+                        },
+                    },
+                    "quantity": 1,
+                }
+            ],
+            metadata={"product_id": product.id},
+            mode="payment",
+            success_url=settings.PAYMENT_SUCCESS_URL,
+            cancel_url=settings.PAYMENT_CANCEL_URL,
+        )
+        return redirect(checkout_session.url)
+
+
+class SuccessView(TemplateView):
+    template_name = "products/payment_success.html"
+
+
+class CancelView(TemplateView):
+    template_name = "products/payment_failed.html"
+
+
+def create_coinbase_checkout_session_view(request, id):
+    current_order = Product.objects.get(id=id)
+    client = Client(api_key=settings.COINBASE_COMMERCE_API_KEY)
+    domain_url = settings.BACKEND_DOMAIN
+    product = {
+        'name': current_order.name,
+        'description': current_order.description,
+        'local_price': {'amount': str(current_order.price), 'currency': 'USD'},
+        'pricing_type': 'fixed_price',
+        'redirect_url': settings.PAYMENT_SUCCESS_URL,
+        'cancel_url': settings.PAYMENT_CANCEL_URL,
+    }
+    charge = client.charge.create(**product)
+    return render(request, 'products/product_details.html', {'charge': charge})

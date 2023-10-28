@@ -147,3 +147,9 @@ STRIPE_CURRENCY = "usd"
 
 # 4000000000009995 - Failed payment
 # 4000002500003155 - Requires authentication
+
+BACKEND_DOMAIN = 'http://127.0.0.1:8000'
+PAYMENT_SUCCESS_URL = 'http://127.0.0.1:8000/products/success/'
+PAYMENT_CANCEL_URL = 'http://127.0.0.1:8000/products/cancel/'
+STRIPE_WEBHOOK_SECRET = 'whsec_e243ff40b2d6b4b8a83a1c934b5c1f73afd2e3e0a95f42fad98bb4c81890ee04'
+COINBASE_COMMERCE_API_KEY = '0b099a3b-fccc-4f5a-b1d2-efd1444818ed'
