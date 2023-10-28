@@ -1,0 +1,17 @@
+.form {
+  position: relative;
+}
+
+.form input[name="user"] {
+  padding-left: 2.2em;
+}
+
+.form button {
+  position: absolute;
+  top: 50%;
+  left: 0.5em;
+  transform: translateY(-50%);
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}

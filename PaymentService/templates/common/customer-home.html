@@ -1,0 +1,14 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static "css/common/customer-home.css" %}">
+    <form class="form">
+        <input type="search" name='user' placeholder="Search for sellers">
+        <button type="submit">
+            <i class="fa fa-search"></i>
+        </button>
+    </form>
+    {% with object_list as items %}
+        {% include "products/listings-layout.html" %}
+    {% endwith %}
+{% endblock %}
