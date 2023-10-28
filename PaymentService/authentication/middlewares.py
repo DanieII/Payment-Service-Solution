@@ -6,7 +6,10 @@ class AlwaysRequireAccountMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        if not request.path.startswith("/authentication/"):
+        if (
+            not request.path.startswith("/authentication/")
+            and not request.user.is_authenticated
+        ):
             return redirect("login")
 
         response = self.get_response(request)
