@@ -146,8 +146,14 @@ STRIPE_CURRENCY = "usd"
 # use date in the future like 12/34
 # any 3 numbers as CVC
 
-BACKEND_DOMAIN = 'http://127.0.0.1:8000'
-PAYMENT_SUCCESS_URL = 'http://127.0.0.1:8000/products/success/'
-PAYMENT_CANCEL_URL = 'http://127.0.0.1:8000/products/cancel/'
-STRIPE_WEBHOOK_SECRET = 'whsec_e243ff40b2d6b4b8a83a1c934b5c1f73afd2e3e0a95f42fad98bb4c81890ee04'
-COINBASE_COMMERCE_API_KEY = '0b099a3b-fccc-4f5a-b1d2-efd1444818ed'
+BACKEND_DOMAIN = "http://127.0.0.1:8000"
+PAYMENT_SUCCESS_URL = "http://127.0.0.1:8000/products/success/"
+PAYMENT_CANCEL_URL = "http://127.0.0.1:8000/products/cancel/"
+STRIPE_WEBHOOK_SECRET = (
+    "whsec_e243ff40b2d6b4b8a83a1c934b5c1f73afd2e3e0a95f42fad98bb4c81890ee04"
+)
+COINBASE_COMMERCE_API_KEY = "0b099a3b-fccc-4f5a-b1d2-efd1444818ed"
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+]

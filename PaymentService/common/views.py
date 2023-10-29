@@ -24,18 +24,25 @@ def redirect_to_correct_interface_view(request):
 class BusinessUserHomeView(ProhibitCustomerUsersMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['total_orders'] = Order.objects.all().count()
-        context['profit'] = Order.objects.aggregate(Sum('product_price'))['product_price__sum']
-        context["active_offers"] = Product.objects.filter(user=self.request.user).count()
-        context['visits_count'] = Product.objects.aggregate(Sum('visits_count'))['visits_count__sum']
+        context["total_orders"] = Order.objects.all().count()
+        context["profit"] = Order.objects.aggregate(Sum("product_price"))[
+            "product_price__sum"
+        ]
+        context["active_offers"] = Product.objects.filter(
+            user=self.request.user
+        ).count()
+        context["visits_count"] = Product.objects.aggregate(Sum("visits_count"))[
+            "visits_count__sum"
+        ]
         return context
+
     template_name = "common/business-home.html"
 
 
 class CustomerUserHomeView(ProhibitBusinessUsersMixin, ListView):
     template_name = "common/customer-home.html"
     context_object_name = "products"
-    paginate_by = 5
+    paginate_by = 1
 
     def get_queryset(self):
         users = UserModel.objects.all()
@@ -88,4 +95,4 @@ class StripeWebhookView(View):
                 product_name=product.name,
                 product_price=product.price,
             )
-        return HttpResponse(status=200)
+            return HttpResponse(status=200)

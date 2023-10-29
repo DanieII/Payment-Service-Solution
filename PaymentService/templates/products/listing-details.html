@@ -13,7 +13,7 @@
             <h1>
                 {{ object.name }} - <span>{{ object.price }} &dollar;</span>
             </h1>
-            <p>from {{ object.user.name }}</p>
+            <p>from {{ object.user.name }} - {{ object.user.email }}</p>
         </div>
         <p class="posted-on">Posted on {{ object.created_on|date:"M d, Y" }}</p>
         <img src="{{ object.media.url }}" alt="{{ object.name }}">

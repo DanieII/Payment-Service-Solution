@@ -11,4 +11,26 @@
     {% with object_list as items %}
         {% include "products/listings-layout.html" %}
     {% endwith %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}"><span>&lt;</span></a>{% endif %}
+        {% if page_obj.number > 3 %}
+            <a class="pagination-number button" href="?page=1">1</a>
+            <span class="pagination-ellipsis">...</span>
+        {% endif %}
+        {% for num in page_obj.paginator.page_range %}
+            {% if num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                {% if page_obj.number == num %}
+                    <span class="pagination-number pagination-current button">{{ num }}</span>
+                {% else %}
+                    <a class="pagination-number" href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        {% if page_obj.number < page_obj.paginator.num_pages|add:'-3' %}
+            <span class="pagination-ellipsis">...</span>
+            <a class="pagination-number button"
+               href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+        {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}"><span>&gt;</span></a>{% endif %}
+    </div>
 {% endblock %}
