@@ -7,7 +7,7 @@
     <br>Orders
   </div>
   <div class="w3-quarter">
-    <span class="w3-xxlarge">{{ profit }}$</span>
+    <span class="w3-xxlarge">{% if profit %} {{ profit }} {% else %} 0 {% endif %}$</span>
     <br>Total Profit
   </div>
   <div class="w3-quarter">
