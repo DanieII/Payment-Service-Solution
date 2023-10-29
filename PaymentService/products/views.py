@@ -1,13 +1,7 @@
-import requests
 from django.core.paginator import Paginator
-from django.contrib.auth import get_user_model
-from django.shortcuts import render, reverse
-from django.urls import reverse_lazy
+from django.shortcuts import reverse
 from django.views.generic import (
-    CreateView,
     DeleteView,
-    DetailView,
-    ListView,
     UpdateView,
 )
 from django.shortcuts import redirect
@@ -66,6 +60,13 @@ class AddListing(ProhibitCustomerUsersMixin, AddPlaceholdersToFieldMixin, Create
 
 class ListingDetails(DetailView):
     model = Product
+
+    def get(self, request, *args, **kwargs):
+        # increments product views for current object
+        self.object = self.get_object()
+        self.object.visits_count += 1
+        self.object.save()
+        return super().get(request, *args, **kwargs)
     template_name = "products/listing-details.html"
 
 

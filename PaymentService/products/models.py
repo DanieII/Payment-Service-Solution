@@ -13,6 +13,7 @@ class Product(models.Model):
     )
     media = models.ImageField(upload_to="images")
     created_on = models.DateTimeField(auto_now_add=True)
+    visits_count = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
