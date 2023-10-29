@@ -40,7 +40,7 @@
                         <li>
                             {% if request.user.is_business %}
                                 <a href="{% url 'business-home' %}">Home</a>
-                            {% else %}
+                            {% elif request.user.is_customer %}
                                 <a href="{% url 'customer-home' %}">Home</a>
                             {% endif %}
                         </li>

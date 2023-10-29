@@ -49,11 +49,6 @@ class CustomerUserHomeView(ProhibitBusinessUsersMixin, ListView):
 
         return products
 
-
-class HomeView(TemplateView):
-    template_name = "common/index.html"
-
-
 @method_decorator(csrf_exempt, name="dispatch")
 class StripeWebhookView(View):
     """
