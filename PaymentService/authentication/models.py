@@ -13,11 +13,10 @@ class CustomUserManager(BaseUserManager):
     ):
         email = self.normalize_email(email) if email else None
         user = self.model(name=name, email=email, **extra_fields)
-        user.password = make_password(password)
+        user.set_password(password)
 
-        print("HRERERER")
-
-        user.save(using=self._db)
+        if commit:
+            user.save(using=self._db)
 
         return user
 

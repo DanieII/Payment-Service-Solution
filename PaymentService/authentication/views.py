@@ -36,7 +36,6 @@ class BaseUserRegisterView(
         user = form.save()
         is_business = self.request.POST.get("is_business", False)
         user.is_business = is_business
-        print(self.request.POST)
         user.password = make_password(self.request.POST.get("password"))
         user.save()
 
