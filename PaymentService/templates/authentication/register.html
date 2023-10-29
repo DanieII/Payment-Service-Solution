@@ -1,13 +1,13 @@
 {% extends "common/base.html" %}
 {% load static %}
 {% block content %}
-    <link rel="stylesheet" href="{% static "css/authentication/register.css" %}">
-    <div class="account-types">
-        <div class="account-type">
+    <link rel="stylesheet" href="{% static "css/common/choose-between.css" %}">
+    <div class="options">
+        <div class="option">
             <a href="{% url 'register_business' %}" class="button">Business</a>
         </div>
         <p>or</p>
-        <div class="account-type">
+        <div class="option">
             <p>
                 <a href="{% url 'register_customer' %}" class="button">Customer</a>
             </p>

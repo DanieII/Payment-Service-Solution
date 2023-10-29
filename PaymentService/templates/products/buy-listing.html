@@ -1,0 +1,22 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static "css/common/choose-between.css" %}">
+    <p class="w3-center" style="margin-bottom: 1em;">How would you like to pay?</p>
+    <div class="options">
+        <div class="option">
+            <form action="{% url 'create-checkout-session' pk=listing_pk %}"
+                  method="post">
+                {% csrf_token %}
+                <button type="submit" class="button">Card</button>
+            </form>
+        </div>
+        <p>or</p>
+        <div class="option">
+            <form action="{% url 'crypto-session' id=listing_pk %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="button">Crypto</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
