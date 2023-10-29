@@ -1,13 +1,7 @@
-import requests
 from django.core.paginator import Paginator
-from django.contrib.auth import get_user_model
-from django.shortcuts import render, reverse
-from django.urls import reverse_lazy
+from django.shortcuts import reverse
 from django.views.generic import (
-    CreateView,
     DeleteView,
-    DetailView,
-    ListView,
     UpdateView,
 )
 from django.shortcuts import render, redirect
@@ -32,11 +26,11 @@ def product_list(request):
     # search user, case-insensitive
     user = request.GET.get('user')
     if user != '' and user is not None:
-
         users = users.filter(name__icontains=user)
 
     products = []
     for u in users:
+        # shows products of filtered users/user
         products.extend(Product.objects.filter(user=u))
 
     # pagination
@@ -84,6 +78,13 @@ class AddListing(AddPlaceholdersToFieldMixin, CreateView):
 
 class ListingDetails(DetailView):
     model = Product
+
+    def get(self, request, *args, **kwargs):
+        # increments product views for current object
+        self.object = self.get_object()
+        self.object.visits_count += 1
+        self.object.save()
+        return super().get(request, *args, **kwargs)
     template_name = "products/listing-details.html"
 
 

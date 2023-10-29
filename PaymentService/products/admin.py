@@ -6,7 +6,7 @@ from .models import Product, Order
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     model = Product
-    list_display = ['name', 'description', 'price', 'user']
+    list_display = ['name', 'description', 'price', 'user', 'visits_count']
 
 
 @admin.register(Order)

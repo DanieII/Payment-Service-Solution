@@ -1,7 +1,7 @@
+from django.db.models import Sum
 from django.shortcuts import redirect
 from django.views.generic import ListView, TemplateView
 from common.mixins import ProhibitBusinessUsersMixin, ProhibitCustomerUsersMixin
-from products.models import Product
 from django.contrib.auth import get_user_model
 import stripe
 from django.conf import settings
@@ -9,7 +9,6 @@ from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import TemplateView
 from products.models import Order, Product
 
 
@@ -23,6 +22,13 @@ def redirect_to_correct_interface_view(request):
 
 
 class BusinessUserHomeView(ProhibitCustomerUsersMixin, TemplateView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_orders'] = Order.objects.all().count()
+        context['profit'] = Order.objects.aggregate(Sum('product_price'))['product_price__sum']
+        context["active_offers"] = Product.objects.filter(user=self.request.user).count()
+        context['visits_count'] = Product.objects.aggregate(Sum('visits_count'))['visits_count__sum']
+        return context
     template_name = "common/business-home.html"
 
 
