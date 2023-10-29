@@ -11,4 +11,6 @@ Things that you need in order to test the payment systems:
 - For Coinbase (there is no sandbox there) you need real crypto in order to make
 successful payment.
 
-All test API keys are saved in settings.py
+If you want to build the app you need to have StripeCli: https://stripe.com/docs/stripe-cli
+stripe login (for loging into your Stripe account)
+stripe listen --forward-to localhost:8000/webhooks/stripe/ (to get webhook key and to listen for successful or not payments)
