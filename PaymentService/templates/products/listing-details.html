@@ -19,15 +19,9 @@
         <img src="{{ object.media.url }}" alt="{{ object.name }}">
         <div class="bottom">
             <p class="description">{{ object.description }}</p>
-            {% if not request.user.is_business %}<a href="#" class="button">Add to cart</a>{% endif %}
-            <form action="{% url 'create-checkout-session' product.id %}" method="POST">
-                {% csrf_token %}
-                <button type="submit" class="button">Buy</button>
-            </form>
-            <form action="{% url 'crypto-session' product.id %}" method="POST">
-                {% csrf_token %}
-                <button type="submit" class="button">Crypto</button>
-            </form>
+            {% if not request.user.is_business %}
+                <a href="{% url 'buy-listing' pk=product.pk %}" class="button">Buy</a>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

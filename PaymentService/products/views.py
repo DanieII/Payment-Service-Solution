@@ -10,43 +10,25 @@ from django.views.generic import (
     ListView,
     UpdateView,
 )
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, DetailView, ListView, TemplateView
 from .models import Product
 from django.contrib.auth import get_user_model
-from common.mixins import ProhibitCustomerUsersMixin, AddPlaceholdersToFieldMixin
+from common.mixins import (
+    ProhibitBusinessUsersMixin,
+    ProhibitCustomerUsersMixin,
+    AddPlaceholdersToFieldMixin,
+)
 from django import forms
 from django.conf import settings
 import stripe
 from coinbase_commerce.client import Client
+from .mixins import CheckForObjectOwnerMixin
 
 UserModel = get_user_model()
 stripe.api_key = settings.STRIPE_SECRET_KEY
-
-
-def product_list(request):
-    users = UserModel.objects.all()
-
-    # search user, case-insensitive
-    user = request.GET.get('user')
-    if user != '' and user is not None:
-
-        users = users.filter(name__icontains=user)
-
-    products = []
-    for u in users:
-        products.extend(Product.objects.filter(user=u))
-
-    # pagination
-    paginator = Paginator(products, 2)
-    page = request.GET.get("page")
-    products = paginator.get_page(page)
-
-    return render(
-        request, "products/product_list.html", {"products": products, "users": users}
-    )
 
 
 class ListingsView(ProhibitCustomerUsersMixin, ListView):
@@ -60,7 +42,7 @@ class ListingsView(ProhibitCustomerUsersMixin, ListView):
         return current_business_listings
 
 
-class AddListing(AddPlaceholdersToFieldMixin, CreateView):
+class AddListing(ProhibitCustomerUsersMixin, AddPlaceholdersToFieldMixin, CreateView):
     model = Product
     template_name = "products/add-listing.html"
     fields = ["name", "description", "price", "media"]
@@ -87,7 +69,7 @@ class ListingDetails(DetailView):
     template_name = "products/listing-details.html"
 
 
-class EditListing(UpdateView):
+class EditListing(ProhibitCustomerUsersMixin, CheckForObjectOwnerMixin, UpdateView):
     model = Product
     template_name = "products/edit-listing.html"
     fields = ["name", "description", "media"]
@@ -97,12 +79,12 @@ class EditListing(UpdateView):
         return reverse("listing-details", kwargs={"pk": pk})
 
 
-class DeleteListing(DeleteView):
+class DeleteListing(ProhibitCustomerUsersMixin, CheckForObjectOwnerMixin, DeleteView):
     model = Product
     success_url = reverse_lazy("listings")
 
 
-class CreateStripeCheckoutSessionView(View):
+class CreateStripeCheckoutSessionView(ProhibitBusinessUsersMixin, View):
     """
     Create a checkout session and redirect the user to Stripe's checkout page
     """
@@ -142,6 +124,9 @@ class CancelView(TemplateView):
 
 
 def create_coinbase_checkout_session_view(request, id):
+    if request.user.is_business:
+        return redirect("business-home")
+
     current_order = Product.objects.get(id=id)
     client = Client(api_key=settings.COINBASE_COMMERCE_API_KEY)
     domain_url = settings.BACKEND_DOMAIN
@@ -154,4 +139,13 @@ def create_coinbase_checkout_session_view(request, id):
         "cancel_url": settings.PAYMENT_CANCEL_URL,
     }
     charge = client.charge.create(**product)
-    return render(request, "products/product_details.html", {"charge": charge})
+    return redirect(charge.hosted_url)
+
+
+class BuyListingView(ProhibitBusinessUsersMixin, TemplateView):
+    template_name = "products/buy-listing.html"
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data["listing_pk"] = self.kwargs.get("pk")
+        return context_data

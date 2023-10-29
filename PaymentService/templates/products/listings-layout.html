@@ -12,7 +12,9 @@
                 <p class="name">{{ item.name }}</p>
                 <p class="business">from {{ item.user.name }}</p>
                 <p class="price">{{ item.price }} &dollar;</p>
-                {% if not request.user.is_business %}<a href="#" class="button">Add to cart</a>{% endif %}
+                {% if not request.user.is_business %}
+                    <a href="{% url 'buy-listing' pk=item.pk %}" class="button">Buy</a>
+                {% endif %}
             </div>
         </div>
     {% endfor %}
