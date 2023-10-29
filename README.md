@@ -14,3 +14,5 @@ successful payment.
 If you want to build the app you need to have StripeCli: https://stripe.com/docs/stripe-cli
 stripe login (for loging into your Stripe account)
 stripe listen --forward-to localhost:8000/webhooks/stripe/ (to get webhook key and to listen for successful or not payments)
+
+The database is postgres, you need .env file on the level of manage.py
