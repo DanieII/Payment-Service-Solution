@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from common.mixins import AddPlaceholdersToFieldMixin
 from .mixins import ProhibitLoggedUsersMixin
 from .forms import CustomerUserRegisterForm, BusinessUserRegisterForm
+from django.contrib.auth.hashers import make_password
 
 
 UserModel = get_user_model()
@@ -35,6 +36,8 @@ class BaseUserRegisterView(
         user = form.save()
         is_business = self.request.POST.get("is_business", False)
         user.is_business = is_business
+        print(self.request.POST)
+        user.password = make_password(self.request.POST.get("password"))
         user.save()
 
         login(self.request, user)

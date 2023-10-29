@@ -1,17 +1,23 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    PermissionsMixin,
+    BaseUserManager,
+)
+from django.contrib.auth.hashers import make_password
 
 
-class CustomUserManager(UserManager):
+class CustomUserManager(BaseUserManager):
     def create_user(
         self, name=None, email=None, password=None, commit=True, **extra_fields
     ):
         email = self.normalize_email(email) if email else None
         user = self.model(name=name, email=email, **extra_fields)
-        user.set_password(password)
+        user.password = make_password(password)
 
-        if commit:
-            user.save(using=self._db)
+        print("HRERERER")
+
+        user.save(using=self._db)
 
         return user
 

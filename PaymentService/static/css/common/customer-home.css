@@ -15,3 +15,14 @@
   background-color: transparent;
   cursor: pointer;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2em;
+}
+
+.pagination-current {
+  border: 1px solid black;
+}
