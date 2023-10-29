@@ -1,11 +1,11 @@
 from django.urls import path
 from .views import (
     AddListing,
+    BuyListingView,
     DeleteListing,
     EditListing,
     ListingDetails,
     ListingsView,
-    product_list,
     SuccessView,
     CancelView,
     CreateStripeCheckoutSessionView,
@@ -13,7 +13,6 @@ from .views import (
 )
 
 urlpatterns = [
-    path("product_list/", product_list, name="product_list"),
     path("listings/", ListingsView.as_view(), name="listings"),
     path("listings/<int:pk>/", ListingDetails.as_view(), name="listing-details"),
     path("listings/add/", AddListing.as_view(), name="add-listing"),
@@ -31,4 +30,5 @@ urlpatterns = [
         create_coinbase_checkout_session_view,
         name="crypto-session",
     ),
+    path("buy-listing/<int:pk>/", BuyListingView.as_view(), name="buy-listing"),
 ]

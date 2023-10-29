@@ -1,5 +1,6 @@
 .DS_Store
 pyrightconfig.json
+/__pycache__/
 
 # Django #
 *.log
