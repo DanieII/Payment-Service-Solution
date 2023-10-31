@@ -15,9 +15,8 @@ Things that you need in order to test the payment systems:
 
 - For Coinbase (there is no sandbox there) you need real crypto in order to make
 successful payment.
-![image](coibase.jpg)
+![image](coinbase.jpg)
 
-![image](success.jpg)
 ![image](failed.jpg)
 
 
