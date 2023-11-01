@@ -1,18 +1,17 @@
 # Welcome to our Payment Service Solution
-It is a web app build in less than 48 hours as a part of SOFTUNI CREATIVE FEST 2023 (https://fest.softuni.bg/).  
-It offers business and consumer types of accounts:  
+This is a web app built in less than 48 hours as a part of the [SoftUni Software Fest 2023](https://fest.softuni.bg/softuni-fest-2023-software/)<br>
+It offers business and customer types of accounts:  
 Business part allows sellers to publish offers and services  
-Consumer part shows all the active offers, allows search by seller name or part of it.
-The consumer wants to pay for an offer or service, he can choose between two payment methods (Stripe and Coinbase)  
-There are also some statistics that business part can show to its users.
+Customer part shows all the active offers, allows search by business name or part of it and payment with Stripe and Coinbase.
+There are also some statistics that business part shows to its users.
 The app is entirely writen in Django framework. It has responsive design and uses PostgreSQL as a database. 
 It can be easily switched to any of these too:
 Officially supported: MariaDB, MySQL, Oracle, SQLite
 3rd party: CockroachDB, Firebird, Google Cloud Spanner, Microsoft SQL Server, Snowflake, TiDB, YugabyteDB
 
-### Consumers home page screenshots:
-![image](consumer_view.jpg)
-![image](seller_search.jpg)
+### Customer home page screenshots:
+![Screenshot 2023-11-01 at 15 39 50](https://github.com/DanieII/Payment-Service-Solution/assets/110739078/dbcedae4-ebe9-46e6-aba3-bf1dac9c78e9)
+![Screenshot 2023-11-01 at 15 39 57](https://github.com/DanieII/Payment-Service-Solution/assets/110739078/edda9fae-ef57-4934-8db5-cda3622d244a)
 
 ### Things that you need in order to test the payment systems:
 - For Stripe you can use one of the 3 provided test cards:
