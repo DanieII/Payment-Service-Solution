@@ -3,7 +3,7 @@ It is a web app build in less than 48 hours as a part of SOFTUNI CREATIVE FEST 2
 It offers business and consumer types of accounts:  
 Business part allows sellers to publish offers and services  
 Consumer part shows all the active offers, allows search by seller name or part of it.
-Whe consumer wants to pay for an offer or service, he can choose between two payment methods (Stripe and Coinbase)  
+The consumer wants to pay for an offer or service, he can choose between two payment methods (Stripe and Coinbase)  
 There are also some statistics that business part can show to its users.
 The app is entirely writen in Django framework. It has responsive design and uses PostgreSQL as a database. 
 It can be easily switched to any of these too:
