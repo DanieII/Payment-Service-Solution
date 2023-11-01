@@ -1,12 +1,20 @@
+main,
+main .container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
 .form {
   position: relative;
 }
 
 .form input[name="user"] {
-  padding-left: 2.2em;
+  padding: 0.2em 0.2em 0.2em 2.2em;
 }
 
 .form button {
+  display: flex;
   position: absolute;
   top: 50%;
   left: 0.5em;
@@ -14,15 +22,21 @@
   border: none;
   background-color: transparent;
   cursor: pointer;
+  padding: 0 !important;
 }
 
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 2em;
+  margin-top: auto;
+  gap: 0.5em;
 }
 
 .pagination-current {
   border: 1px solid black;
+}
+
+.arrow {
+  text-decoration: none;
 }

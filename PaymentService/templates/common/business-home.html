@@ -1,22 +1,33 @@
 {% extends "common/base.html" %}
+{% load static %}
 {% block content %}
-
-<div class="w3-container w3-row w3-center w3-dark-grey w3-padding-64">
-  <div class="w3-quarter">
-    <span class="w3-xxlarge">{{ total_orders }}</span>
-    <br>Orders
-  </div>
-  <div class="w3-quarter">
-    <span class="w3-xxlarge">{% if profit %} {{ profit }} {% else %} 0 {% endif %}$</span>
-    <br>Total Profit
-  </div>
-  <div class="w3-quarter">
-    <span class="w3-xxlarge">{{ active_offers }}</span>
-    <br>Active Offers
-  </div>
-  <div class="w3-quarter">
-    <span class="w3-xxlarge">{{ visits_count }}</span>
-    <br>Visits
-  </div>
-</div>
+    <link rel="stylesheet" href="{% static "css/common/business-home.css" %}">
+    <div class="statistics">
+        <div>
+            <span>{{ total_orders }}</span>
+            <br>
+            Orders
+        </div>
+        <div>
+            <span>
+                {% if profit %}
+                    {{ profit }}
+                {% else %}
+                    0
+                {% endif %}
+            $</span>
+            <br>
+            Total Profit
+        </div>
+        <div>
+            <span>{{ active_offers }}</span>
+            <br>
+            Active Offers
+        </div>
+        <div>
+            <span>{{ visits_count }}</span>
+            <br>
+            Visits
+        </div>
+    </div>
 {% endblock %}

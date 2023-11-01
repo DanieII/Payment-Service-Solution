@@ -67,13 +67,14 @@ class ListingDetails(DetailView):
         self.object.visits_count += 1
         self.object.save()
         return super().get(request, *args, **kwargs)
+
     template_name = "products/listing-details.html"
 
 
 class EditListing(ProhibitCustomerUsersMixin, CheckForObjectOwnerMixin, UpdateView):
     model = Product
     template_name = "products/edit-listing.html"
-    fields = ["name", "description", "media"]
+    fields = ["name", "description", "price", "media"]
 
     def get_success_url(self):
         pk = self.object.pk
