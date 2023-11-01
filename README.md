@@ -32,9 +32,10 @@ successful payment.
 ![image](failed.jpg)
 
 
-If you want to build the app you need to have StripeCli: https://stripe.com/docs/stripe-cli
-stripe login (for loging into your Stripe account)
-stripe listen --forward-to localhost:8000/webhooks/stripe/ (to get webhook key and to listen for successful or not payments)
-Also you will need Stripe publishable and secret keys and Coinbase API in order to get real and successful payments.
+If you want to build the app you need to have StripeCli:  
+https://stripe.com/docs/stripe-cli  
+stripe login (for loging into your Stripe account)  
+stripe listen --forward-to localhost:8000/webhooks/stripe/ (to get webhook key and to listen for successful or not payments)  
+Also you will need Stripe publishable and secret keys and Coinbase API in order to get real and successful payments.  
 
 Hope you'll enjoy it!
