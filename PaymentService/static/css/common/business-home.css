@@ -1,0 +1,22 @@
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+main .container {
+  flex-grow: 1;
+}
+
+.statistics {
+  display: flex;
+}
+
+.statistics > div {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.statistics > div span {
+  font-size: 2em;
+}

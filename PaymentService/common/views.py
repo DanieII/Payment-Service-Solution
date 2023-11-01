@@ -42,7 +42,7 @@ class BusinessUserHomeView(ProhibitCustomerUsersMixin, TemplateView):
 class CustomerUserHomeView(ProhibitBusinessUsersMixin, ListView):
     template_name = "common/customer-home.html"
     context_object_name = "products"
-    paginate_by = 1
+    paginate_by = 4
 
     def get_queryset(self):
         users = UserModel.objects.all()
@@ -55,6 +55,7 @@ class CustomerUserHomeView(ProhibitBusinessUsersMixin, ListView):
         products = Product.objects.filter(user__in=users)
 
         return products
+
 
 @method_decorator(csrf_exempt, name="dispatch")
 class StripeWebhookView(View):
