@@ -10,11 +10,11 @@ It can be easily switched to any of these too:
 Officially supported: MariaDB, MySQL, Oracle, SQLite
 3rd party: CockroachDB, Firebird, Google Cloud Spanner, Microsoft SQL Server, Snowflake, TiDB, YugabyteDB
 
-###Consumers home page screenshots:
+### Consumers home page screenshots:
 ![image](consumer_view.jpg)
 ![image](seller_search.jpg)
 
-###Things that you need in order to test the payment systems:
+### Things that you need in order to test the payment systems:
 - For Stripe you can use one of the 3 provided test cards:
  1. 4000000000009995 - Failed payment
  2. 4000002500003155 - Requires authentication (3D)
@@ -28,7 +28,7 @@ Officially supported: MariaDB, MySQL, Oracle, SQLite
 successful payment.
 ![image](coinbase.jpg)
 
-####Messages that consumer will see on successful or failed(cancelled) payment:
+#### Messages that consumer will see on successful or failed(cancelled) payment:
 ![image](failed.jpg)
 
 
