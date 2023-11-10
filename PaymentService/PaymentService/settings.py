@@ -135,9 +135,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "authentication.CustomUser"
 
-STRIPE_PUBLISHABLE_KEY = "pk_test_51O5mZHKqbi3kU3iB6hy31sca4lYHMwE1KvB6sycBaja6yUgM1wjH2sYaf8mIkyyHxTDYRbznDFQPg7hK7Q3zXzNW00xicqKu9u"
-STRIPE_SECRET_KEY = "sk_test_51O5mZHKqbi3kU3iBTHCVS7OqHPqrTSl0TS4If3xHr7b53yRPeZo0jYdqBof7vA5ixEyXY7hkWtbEhK5SCv5DKv0300B4HMfxzu"
-STRIPE_CURRENCY = "usd"
+STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
+STRIPE_CURRENCY = os.getenv("STRIPE_CURRENCY")
 
 # test cards:
 # 4000000000009995 - Failed payment
@@ -150,9 +150,9 @@ BACKEND_DOMAIN = "http://127.0.0.1:8000"
 PAYMENT_SUCCESS_URL = "http://127.0.0.1:8000/products/success/"
 PAYMENT_CANCEL_URL = "http://127.0.0.1:8000/products/cancel/"
 STRIPE_WEBHOOK_SECRET = (
-    "whsec_e243ff40b2d6b4b8a83a1c934b5c1f73afd2e3e0a95f42fad98bb4c81890ee04"
+    os.getenv("STRIPE_WEBHOOK_SECRET")
 )
-COINBASE_COMMERCE_API_KEY = "0b099a3b-fccc-4f5a-b1d2-efd1444818ed"
+COINBASE_COMMERCE_API_KEY = os.getenv("COINBASE_COMMERCE_API_KEY")
 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
