@@ -5,8 +5,8 @@ Business part allows sellers to publish offers and services
 Customer part shows all the active offers, allows search by business name or part of it and payment with Stripe and Coinbase.
 There are also some statistics that business part shows to its users.
 The app is entirely writen in Django framework. It has responsive design and uses PostgreSQL as a database. 
-It can be easily switched to any of these too:
-Officially supported: MariaDB, MySQL, Oracle, SQLite
+It can be easily switched to any of these too:/
+Officially supported: MariaDB, MySQL, Oracle, SQLite/
 3rd party: CockroachDB, Firebird, Google Cloud Spanner, Microsoft SQL Server, Snowflake, TiDB, YugabyteDB
 
 ### Customer home page screenshots:
